@@ -18,10 +18,19 @@ import com.care.root.message.MessageDTO;
 import com.care.root.mybatis.board.BoardMapper;
 
 @Service
-public class BoardServiceImpl implements BoardService{
+public abstract class BoardServiceImpl implements BoardService{
 	@Autowired BoardMapper mapper;
-	public void selectAllBoardList(Model model) {
-		model.addAttribute("boardList",mapper.selectAllBoardList());
+	public void selectAllBoardList(Model model, int num) { //num=pageNo
+		int allCount = mapper.selectBoardCount(); //count of writes
+		int pageLetter = 3; //3 writes in 1 page
+		int repeat = allCount/pageLetter;
+		if(allCount%pageLetter != 0) {
+			repeat++;
+		}
+		int end = num * pageLetter;
+		int start = end + 1 -pageLetter;
+		model.addAttribute("repeat", repeat);
+		model.addAttribute("boardList",mapper.selectAllBoardList(start, end));
 	}
 	@Override
 	public String writeSave(MultipartHttpServletRequest mul, HttpServletRequest request) {

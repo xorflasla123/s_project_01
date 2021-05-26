@@ -23,7 +23,7 @@
 	</resultMap>
 	
 	<select id="selectAllBoardList" resultMap="board">
-		select * from mvc_board
+		select B.* from (select rownum rn, A.* from (select * from mvc_board order by write_no desc)A)B where rn between #{s} and #{e}
 	</select>
 	
 	<insert id="writeSave">
@@ -53,6 +53,10 @@
 	
 	<select id="getRepList" resultMap="reply">
 		select * from reply where write_group=#{write_group} order by write_date desc
+	</select>
+	
+	<select id="selectBoardCount" resultType="Integer"> <!-- resultType은 return type이다 -->
+		select count(*) from mvc_board
 	</select>
 </mapper>
 

@@ -26,8 +26,9 @@ public class BoardController {
 	@Autowired BoardService bs;
 	
 	@GetMapping("boardAllList")
-	public String boardAllList(Model model) {
-		bs.selectAllBoardList(model);
+	public String boardAllList(Model model, @RequestParam(value = "num", required = false/*없으면 defaultValue값을 넣어라*/, defaultValue = "1") int num) {
+		//System.out.println("num : "+num); //Only For Checking
+		bs.selectAllBoardList(model, num);
 		return "board/boardAllList";
 	}
 	
