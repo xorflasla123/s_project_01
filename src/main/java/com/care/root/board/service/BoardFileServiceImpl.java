@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.care.root.message.MessageDTO;
+
 public class BoardFileServiceImpl implements BoardFileService{
 
 	@Override
@@ -37,6 +39,26 @@ public class BoardFileServiceImpl implements BoardFileService{
 			e.printStackTrace();
 		}
 		return sysFileName;
+	}
+
+	@Override
+	public void deleteImage(String imageFileName) {
+		File file = new File(IMAGE_REPO+"/"+imageFileName);
+		file.delete();
+	}
+
+	@Override
+	public String getMessage(MessageDTO dto) {
+		String message = null;
+		String path = dto.getRequest().getContextPath();
+		if(dto.getResult() == 1) {
+			message = "<script>alert('"+dto.getSuccessMessage()+"');";
+			message += "location.href='"+path+dto.getSuccessURL()+"'</script>";
+		}else {
+			message = "<script>alert('"+dto.getFailMessage()+"');";
+			message += "location.href='"+path+dto.getFailURL()+"'</script>";
+		}
+		return message;
 	}
 
 }

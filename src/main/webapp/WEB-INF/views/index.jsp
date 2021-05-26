@@ -10,6 +10,7 @@
 <body>
 	<c:import url="default/header.jsp" />
 	${loginUser } 님 환영합니다
+	
 	<div class="wrap content">
 		<table class="mainTable" style="width:450px; margin: 0 auto;">
 			<tr>
